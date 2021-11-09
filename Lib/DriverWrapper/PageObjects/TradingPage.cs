@@ -130,7 +130,7 @@ namespace Lib
         {
             var formatted = price.ToString(_currencyFormatter);
 
-            new WebDriverWait(_webDriver, TimeSpan.FromSeconds(30)).
+            new WebDriverWait(_webDriver, TimeSpan.FromSeconds(120)).
                     Until(ExpectedConditions.
                     ElementExists(By.
                     XPath($"//td/div[text()='{formatted}']")));
