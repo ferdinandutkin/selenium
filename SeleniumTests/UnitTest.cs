@@ -7,9 +7,8 @@ using Xunit;
 
 namespace Selenium
 {
-    public class UnitTest
+    public class UnitTest : IDisposable
     {
-
         readonly DriverWrapper wrapper;
         public UnitTest()
         {
@@ -47,6 +46,13 @@ namespace Selenium
             wrapper.WaitUntilTradeWithGivenPriceAppears(limitPrice);
 
            
+        }
+
+
+        public void Dispose()
+        {
+            wrapper.Quit();
+            wrapper.Dispose();
         }
 
     }

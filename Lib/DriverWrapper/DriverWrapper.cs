@@ -5,7 +5,7 @@ using SeleniumExtras.PageObjects;
 namespace Lib
 {
 
-    public class DriverWrapper
+    public class DriverWrapper : IDisposable
     {
 
         private readonly IWebDriver _webDriver;
@@ -53,6 +53,9 @@ namespace Lib
         public void ChooseUSD() => _tradePage.ChooseUSD();
 
         public void WaitUntilTradeWithGivenPriceAppears(decimal price) => _tradePage.WaitUntilTradeWithGivenPriceAppears(price);
+
+        public void Dispose() => _webDriver.Dispose();
+        public void Quit() => _webDriver.Quit();
 
         public DriverWrapper(IWebDriver webDriver, Credentials credentials)
         {
