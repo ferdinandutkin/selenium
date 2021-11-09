@@ -19,23 +19,22 @@ namespace Lib
 
         private readonly string _pageUrl = "https://www.webull.com/";
     
-        private void Login(bool bypassCaptcha)
+        private void Login()
         {
-            var loginPage = new HomePage(_webDriver).
+            _centerPage = new HomePage(_webDriver).
                 ClickLogin().
                 SwitchToLoginViaEmail().
                 EnterLogin(_credentials.Login).
-                EnterPassword(_credentials.Password);
-
-
-            _centerPage = bypassCaptcha ? loginPage.BypassCapcha() : loginPage.Submit();
+                EnterPassword(_credentials.Password).
+                Submit().
+                BypassCapcha();
 
         }
 
         //c созданным аккаунтом открыть вкладку trade на сайте
-        public void Prerequirements(bool bypassCaptcha = false)
+        public void Prerequirements()
         {
-            Login(bypassCaptcha);
+            Login();
             GoToPaperTrading();
         }
 

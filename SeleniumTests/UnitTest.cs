@@ -21,16 +21,14 @@ namespace Selenium
             var credentials = JsonSerializer.Deserialize<Credentials>(File.ReadAllText(credentialsPath));
 
             wrapper = new DriverWrapper(new ChromeDriver(driverPath), credentials);
+            wrapper.Prerequirements();
 
         }
       
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
-        public void PlaceOrder_WhenNetAccountValueIsSufficient(bool bypassCaptcha)
+        [Fact]
+        public void PlaceOrder_WhenNetAccountValueIsSufficient()
         {
-            wrapper.Prerequirements(bypassCaptcha);
-
+          
             wrapper.ChooseBuy();
 
             wrapper.ChooseUSD();
@@ -44,8 +42,7 @@ namespace Selenium
             wrapper.Trade(limitPrice);
 
             wrapper.WaitUntilTradeWithGivenPriceAppears(limitPrice);
-
-           
+     
         }
 
 

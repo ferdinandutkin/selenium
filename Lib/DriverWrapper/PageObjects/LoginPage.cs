@@ -63,14 +63,14 @@ namespace Lib
             return new CenterPage(_webDriver);
         }
 
-        public CenterPage Submit()
+        public LoginPage Submit()
         {
             new WebDriverWait(_webDriver, TimeSpan.FromSeconds(10)).
                 Until(ExpectedConditions.
                 ElementToBeClickable(By.XPath("//button/span[text()='Log In']"))).
                 Click();
 
-            return new CenterPage(_webDriver);
+            return this;
 
 
         }
