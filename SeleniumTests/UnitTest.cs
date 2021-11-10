@@ -9,7 +9,7 @@ namespace Selenium
 {
     public class UnitTest : IDisposable
     {
-        readonly DriverWrapper wrapper;
+        private readonly DriverWrapper _wrapper;
         public UnitTest()
         {
             string currentDir = Environment.CurrentDirectory;
@@ -20,8 +20,8 @@ namespace Selenium
 
             var credentials = JsonSerializer.Deserialize<Credentials>(File.ReadAllText(credentialsPath));
 
-            wrapper = new DriverWrapper(new ChromeDriver(driverPath), credentials);
-            wrapper.Prerequirements();
+            _wrapper = new DriverWrapper(new ChromeDriver(driverPath), credentials);
+            _wrapper.Prerequirements();
 
         }
       
@@ -29,28 +29,25 @@ namespace Selenium
         public void PlaceOrder_WhenNetAccountValueIsSufficient()
         {
           
-            wrapper.ChooseBuy();
+            _wrapper.ChooseBuy();
 
-            wrapper.ChooseUSD();
+            _wrapper.ChooseUSD();
 
-            var limitPrice = wrapper.GetLimitPrice();
+            var limitPrice = _wrapper.GetLimitPrice();
 
-            var netAccountValue = wrapper.GetNetAccountValue();
+            var netAccountValue = _wrapper.GetNetAccountValue();
 
             Assert.True(netAccountValue > limitPrice);
 
-            wrapper.Trade(limitPrice);
+            _wrapper.Trade(limitPrice);
 
-            wrapper.WaitUntilTradeWithGivenPriceAppears(limitPrice);
+            _wrapper.WaitUntilTradeWithGivenPriceAppears(limitPrice);
      
         }
 
 
-        public void Dispose()
-        {
-            wrapper.Quit();
-            wrapper.Dispose();
-        }
+        public void Dispose() => _wrapper.Dispose();
+        
 
     }
 }
