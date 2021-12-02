@@ -15,6 +15,7 @@ public abstract class WebullTestBase : IDisposable
     protected readonly Credentials Credentials;
 
     protected readonly string Url = "https://www.webull.com/";
+
     private bool disposedValue;
 
     public WebullTestBase()

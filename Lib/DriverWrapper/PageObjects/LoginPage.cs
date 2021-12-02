@@ -23,21 +23,12 @@ namespace Lib
         [FindsBy(How = How.XPath, Using = "//button/span[text()='Log In']")]
         private IWebElement _loginButton;
 
+        [FindsBy(How = How.XPath, Using = "//div[text()='Email Login']")]
+        private IWebElement _emailLoginButton;
 
         public LoginPage(IWebDriver webDriver) : base(webDriver)
         {
 
-        }
-
-
-        public LoginPage SwitchToLoginViaEmail()
-        {
-            new WebDriverWait(_webDriver, TimeSpan.FromSeconds(10)).
-                Until(ExpectedConditions.
-                ElementToBeClickable(By.XPath("//div[text()='Email Login']"))).
-                Click();
-
-            return this;
         }
 
         public LoginPage EnterLogin(string login)
@@ -88,6 +79,17 @@ namespace Lib
             return this;
 
 
+        }
+
+
+        public LoginPage SwitchToLoginViaEmail()
+        {
+            new WebDriverWait(_webDriver, TimeSpan.FromSeconds(10)).
+                Until(ExpectedConditions.
+                ElementToBeClickable(_emailLoginButton)).
+                Click();
+
+            return this;
         }
 
 
