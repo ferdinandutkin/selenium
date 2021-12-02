@@ -191,20 +191,20 @@ namespace Lib
         public TradingPage GetActiveTradesPrices(out IEnumerable<decimal> prices) 
         {
             
-            decimal[] GetCurrent()
+            (decimal price, int index)[] GetCurrent()
             {
 
                 var selector = By.CssSelector("tr td:nth-child(6)");
 
-                return _webDriver.FindElements(selector).Select(element => {
+                return _webDriver.FindElements(selector).Select((element, index) => {
                     if (decimal.TryParse(element.Text, NumberStyles.Any, _currencyFormatter, out var price))
                     {
                         return new decimal?(price);
                     }
-                    else return null;
+                    return null;
                 })
                     .Where(a => a.HasValue)
-                    .Select(a => a!.Value).ToArray();
+                    .Select(a => a!.Value).Select((element, index) => (element, index)).ToArray();
             }
 
 
@@ -222,13 +222,13 @@ namespace Lib
                 var current = GetCurrent();
 
                 if (current.Except(initial).Any()) {
-                    prices = current;
+                    prices = current.Select(el => el.price);
                     return this;
                 }
 
             }
 
-            prices = initial;
+            prices = initial.Select(el => el.price);
 
             return this;
         }
