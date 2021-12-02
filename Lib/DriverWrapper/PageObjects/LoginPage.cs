@@ -1,6 +1,7 @@
 ﻿using Lib.WebullApi;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.PageObjects;
 using SeleniumExtras.WaitHelpers;
 
 namespace Lib
@@ -10,6 +11,19 @@ namespace Lib
 
         private string _login;
         private string _password;
+
+        [FindsBy(How = How.CssSelector, Using = "input[placeholder='Password']")]
+        private IWebElement _passwordInput;
+
+
+        [FindsBy(How = How.CssSelector, Using = "input[placeholder='Email Address']")]
+        private IWebElement _loginInput;
+
+
+        [FindsBy(How = How.XPath, Using = "//button/span[text()='Log In']")]
+        private IWebElement _loginButton;
+
+
         public LoginPage(IWebDriver webDriver) : base(webDriver)
         {
 
@@ -32,13 +46,14 @@ namespace Lib
 
             new WebDriverWait(_webDriver, TimeSpan.FromSeconds(10)).
                 Until(ExpectedConditions.
-                ElementToBeClickable(By.CssSelector("input[placeholder='Email Address']"))).
+                ElementToBeClickable(_loginInput)).
                 SendKeys(login);
 
             return this;
         }
 
-
+      
+        
 
         public LoginPage EnterPassword(string password)
         {
@@ -47,7 +62,7 @@ namespace Lib
 
             new WebDriverWait(_webDriver, TimeSpan.FromSeconds(10)).
                Until(ExpectedConditions.
-               ElementToBeClickable(By.CssSelector("input[placeholder='Password']"))).
+               ElementToBeClickable(_passwordInput)).
                SendKeys(password);
 
             return this;
@@ -67,7 +82,7 @@ namespace Lib
         {
             new WebDriverWait(_webDriver, TimeSpan.FromSeconds(10)).
                 Until(ExpectedConditions.
-                ElementToBeClickable(By.XPath("//button/span[text()='Log In']"))).
+                ElementToBeClickable(_loginButton)).
                 Click();
 
             return this;
